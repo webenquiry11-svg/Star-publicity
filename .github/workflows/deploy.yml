@@ -1,0 +1,59 @@
+# This is the name of the workflow as it will appear in the "Actions" tab on GitHub.
+name: Deploy to Hostinger VPS
+
+# This section defines when the workflow should run.
+on:
+  # It triggers on any 'push' event.
+  push:
+    # Specifically for pushes to the 'main' branch.
+    branches:
+      - main
+
+# This section defines the jobs to be run. We only have one job, named 'deploy'.
+jobs:
+  deploy:
+    # The job will run on a fresh, temporary virtual machine provided by GitHub.
+    runs-on: ubuntu-latest
+
+    # This section lists the individual steps the job will perform.
+    steps:
+      - name: SSH and Deploy
+        # This step uses a popular pre-made action for SSH connections.
+        uses: appleboy/ssh-action@master
+        with:
+          # These values are pulled from the secrets you created in your GitHub repository.
+          host: ${{ secrets.VPS_SSH_HOST }}
+          username: ${{ secrets.VPS_SSH_USERNAME }}
+          key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          # The 'script' section contains the commands to run on your server.
+          script: |
+            # Load Node.js and npm into the session using NVM
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            
+            echo "--- Navigating to project directory ---"
+            cd /var/www/STARPUBLICITY
+            
+            echo "--- Pulling latest code from GitHub ---"
+            # Pull the latest code from the 'main' branch on GitHub
+            git pull origin main
+            
+            echo "--- Installing backend dependencies ---"
+            cd server
+            # 'npm ci' is a cleaner and more reliable install for CI/CD environments
+            npm ci
+            cd ..
+            
+            echo "--- Installing frontend dependencies and building ---"
+            cd client
+            # Use 'npm ci' for the frontend as well
+            npm ci
+            npm run build
+            cd ..
+            
+            echo "--- Reloading backend application for zero-downtime update ---"
+            # 'pm2 reload' updates the application without any downtime for users
+            pm2 reload starpublicity-api
+            pm2 save
+            
+            echo "--- Deployment complete ---"
