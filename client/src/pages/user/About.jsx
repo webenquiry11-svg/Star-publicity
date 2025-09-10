@@ -155,23 +155,23 @@ const AboutUs = () => {
   return (
     <>
       {/* === Top Hero Section (UNCHANGED) === */}
-      <section className="relative w-full min-h-[900px] lg:min-h-[100vh] overflow-hidden">
+      <section className="relative w-full min-h-[70vh] sm:min-h-[80vh] lg:min-h-screen flex flex-col justify-center overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('/assets/AboutpageImages/bg.png')`}}/>
         <div className="absolute inset-0 bg-black opacity-50" />
-        <div className="absolute top-1/3 left-0 w-full z-0 pointer-events-none overflow-hidden">
-            <div className="whitespace-nowrap font-black opacity-10 text-white select-none flex" style={{ fontSize: "20vw", animation: "slideStarInfinite 30s linear infinite", width: "max-content" }}>
+        <div className="absolute top-1/2 left-0 w-full z-0 pointer-events-none overflow-hidden -translate-y-1/2">
+            <div className="whitespace-nowrap font-black opacity-10 text-white select-none flex text-[25vw] sm:text-[20vw]" style={{ animation: "slideStarInfinite 30s linear infinite", width: "max-content" }}>
                 <span>STAR PUBLICITY • STAR PUBLICITY • STAR PUBLICITY • STAR PUBLICITY • STAR PUBLICITY • </span>
                 <span>STAR PUBLICITY • STAR PUBLICITY • STAR PUBLICITY • STAR PUBLICITY • STAR PUBLICITY • </span>
             </div>
         </div>
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="relative z-20 max-w-xl px-4 md:px-8 lg:px-16 pt-40">
-            <h1 className="text-white font-black text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl leading-tight tracking-tight drop-shadow-lg text-justify">
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="relative z-20 w-full max-w-4xl px-4 md:px-8 lg:px-16">
+            <h1 className="text-white font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight tracking-tight drop-shadow-lg">
                 <span className="block">YOUR TRUSTED</span>
                 <span className="block">PARTNER IN</span>
                 <span className="block">OUTDOOR ADVERTISING</span>
             </h1>
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 0.2, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="relative z-20 mt-6 h-1 sm:h-2 bg-white opacity-20 w-full max-w-md" style={{ clipPath: "polygon(0% 0%, 100% 0%, 95% 100%, 5% 100%)" }}/>
         </motion.div>
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 0.2, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="relative z-20 mt-6 h-2 bg-white opacity-20 w-full max-w-xl mx-4 md:mx-8 lg:mx-16" style={{ clipPath: "polygon(0% 0%, 100% 0%, 95% 100%, 5% 100%)" }}/>
         <div className="absolute bottom-0 left-0 w-full h-[200px] z-10 overflow-hidden">
             <svg className="w-full h-full block" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill="#ffffff" fillOpacity="1" d="M0,160L60,144C120,128,240,96,360,90.7C480,85,600,107,720,138.7C840,171,960,213,1080,208C1200,203,1320,149,1380,122.7L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"/>

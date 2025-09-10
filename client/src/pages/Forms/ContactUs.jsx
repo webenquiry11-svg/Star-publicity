@@ -189,12 +189,12 @@ const OrbitNode = ({ node, isOuter }) => {
   const Component = isPathLink ? Link : "a";
   const linkProps = { [isPathLink ? "to" : "href"]: node.href, ...(isExternal && { target: "_blank", rel: "noopener noreferrer" }) };
   return (
-    <div className="absolute inset-0 pointer-events-none" style={{ transform: `rotate(${node.angle}deg)` }}>
-      <Component {...linkProps} aria-label={node.label} className={`absolute top-0 left-1/2 -translate-x-1/2 cursor-pointer group pointer-events-auto ${isOuter ? 'icon-wrapper-outer' : 'icon-wrapper-inner'}`}>
-        <div className={`relative flex items-center justify-center ${isOuter ? 'w-12 h-12 sm:w-14 sm:h-14' : 'w-10 h-10 sm:w-12 sm:h-12'}`}>
+    <div className="absolute inset-0" style={{ transform: `rotate(${node.angle}deg)` }}>
+      <Component {...linkProps} aria-label={node.label} className={`absolute top-0 left-1/2 -translate-x-1/2 cursor-pointer group ${isOuter ? 'icon-wrapper-outer' : 'icon-wrapper-inner'}`}>
+        <div className={`relative flex items-center justify-center ${isOuter ? 'w-14 h-14 sm:w-16' : 'w-12 h-12 sm:w-14'}`}>
           <div className={`absolute w-full h-full rounded-full animate-ping opacity-75 group-hover:opacity-100 ${isOuter ? 'bg-primary-blue/50' : 'bg-secondary-yellow/50'}`}></div>
-          <div className={`relative flex items-center justify-center bg-white/80 border border-purple-400/50 rounded-full backdrop-blur-sm transition-all group-hover:scale-105 ${isOuter ? 'w-10 h-10 sm:w-12 sm:h-12' : 'w-8 h-8 sm:w-10 sm:h-10'}`}>
-            <node.icon size={isOuter ? 20 : 16} className="text-primary-blue" />
+          <div className={`relative flex items-center justify-center bg-white/80 border border-purple-400/50 rounded-full backdrop-blur-sm transition-all group-hover:scale-105 ${isOuter ? 'w-12 h-12 sm:w-14' : 'w-10 h-10 sm:w-12'}`}>
+            <node.icon size={isOuter ? 24 : 20} className="text-primary-blue" />
           </div>
         </div>
       </Component>
