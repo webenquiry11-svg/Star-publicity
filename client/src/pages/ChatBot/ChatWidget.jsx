@@ -41,8 +41,8 @@ const styles = {
   // --- UPDATED: Sized down for the new, smaller opener ---
   chatOpenerContainer: (isOpen) => ({
     position: "fixed",
-    bottom: "25px",
-    right: "10px",
+    bottom: "15px",
+    right: "15px",
     width: "100px",
     height: "100px",
     cursor: "pointer",
@@ -57,10 +57,10 @@ const styles = {
   // Main Chat Window
   chatWindow: (isVisible) => ({
     position: "fixed",
-    bottom: "20px",
-    right: "20px",
-    width: "380px",
-    maxHeight: "min(650px, 90vh)",
+    bottom: "15px",
+    right: "5px",
+    width: "370px",
+    maxHeight: "min(600px, calc(100vh - 40px))", // Ensure it doesn't go off-screen
     backgroundColor: "#F9FAFB",
     borderRadius: "16px",
     color: "#1F2937",
@@ -375,9 +375,8 @@ const ConfettiEffect = () => {
       backgroundColor:
         confettiColors[Math.floor(Math.random() * confettiColors.length)],
       borderRadius: "50%",
-      animation: `confettiFall ${
-        Math.random() * 2 + 1.5
-      }s ease-in-out forwards`,
+      animation: `confettiFall ${Math.random() * 2 + 1.5
+        }s ease-in-out forwards`,
       animationDelay: `${Math.random() * 0.5}s`,
       zIndex: 10001,
       opacity: 0,
@@ -952,6 +951,27 @@ const ChatWidget = () => {
                     border-top: 15px solid #1a2a80;
                     transform: rotate(30deg);
                 }
+                /* --- NEW: Responsive styles for mobile --- */
+                @media (max-width: 480px) {
+                    .chat-window-responsive {
+                        width: 100vw;
+                        height: 100vh;
+                        max-height: 100vh;
+                        bottom: 0;
+                        right: 0;
+                        border-radius: 0;
+                        border: none;
+                    }
+                    .chat-opener-responsive {
+                        width: 80px !important;
+                        height: 80px !important;
+                        bottom: 10px !important;
+                        right: 10px !important;
+                    }
+                    .chat-header-responsive {
+                        border-radius: 0 !important;
+                    }
+                }
                 .chat-input:focus {
                     border-color: #2563EB;
                     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
@@ -964,7 +984,10 @@ const ChatWidget = () => {
 
       {/* --- UPDATED: Using the new RippleChatOpener --- */}
       <div
-        style={styles.chatOpenerContainer(isOpen)}
+        style={{
+          ...styles.chatOpenerContainer(isOpen),
+        }}
+        className="chat-opener-responsive"
         onClick={() => {
           setIsOpen(true);
           setIsCloudPopupVisible(false); // Hide popup on click
@@ -990,9 +1013,15 @@ const ChatWidget = () => {
       </div>
 
       {isOpen && (
-        <div style={styles.chatWindow(isVisible)}>
+        <div
+          style={styles.chatWindow(isVisible)}
+          className="chat-window-responsive"
+        >
           {showCelebration && <ConfettiEffect />}
-          <div style={styles.chatHeader}>
+          <div
+            style={styles.chatHeader}
+            className="chat-header-responsive"
+          >
             <div style={styles.headerBranding}>
               <div style={styles.avatar}>SP</div>
               <div style={styles.headerTextContainer}>
