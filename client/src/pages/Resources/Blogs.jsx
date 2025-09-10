@@ -524,21 +524,21 @@ const Blogs = () => {
     <div className="bg-gradient-to-br from-gray-50 to-white text-gray-900 min-h-screen font-sans overflow-x-hidden">
       <section
         ref={heroRef}
-        className="relative h-[90vh] flex flex-col items-start justify-end text-white overflow-hidden p-8 pb-16 md:p-16 md:pb-24 lg:p-24 lg:pb-32"
+        className="relative h-[60vh] md:h-[80vh] flex flex-col items-start justify-end text-white overflow-hidden p-6 pb-16 md:p-16 md:pb-24 lg:p-24 lg:pb-32"
         style={{ paddingTop: "calc(2rem + 20px)" }}
       >
-        <motion.div
-          className="absolute inset-0 bg-cover bg-center"
+        <motion.img
+          src={heroImage}
+          alt="Blog hero background"
+          className="absolute inset-0 w-full h-full object-cover object-center"
           style={{
-            backgroundImage: `url(${heroImage})`,
             backgroundPositionY: backgroundY,
-            zIndex: 0,
           }}
         />
         <div
           className="absolute inset-0 bg-black"
           style={{
-            backgroundColor: "rgba(0, 0, 0, 0.45)",
+            backgroundColor: "rgba(0, 0, 0, 0.35)",
             zIndex: 10,
           }}
         />
@@ -562,7 +562,7 @@ const Blogs = () => {
             READ OUR BLOGS
           </motion.p>
           <motion.h1
-            className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight drop-shadow-2xl"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight drop-shadow-2xl"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
