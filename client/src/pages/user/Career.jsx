@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
   motion,
-  AnimatePresence,
   useScroll,
   useTransform,
   easeInOut,
@@ -9,15 +8,13 @@ import {
 import { Link } from "react-router-dom";
 const MotionLink = motion(Link);
 
-// CORRECTED: The incorrect image import has been removed.
-
 const GALLERY_IMAGES = [
   "/assets/Career images/square img 1.png",
   "/assets/Career images/career 1.png",
   "/assets/Career images/career 2.png",
   "/assets/Career images/career 3.png",
   "/assets/Career images/square img 2.png",
- ];
+];
 
 const Career = () => {
   const gallerySectionRef = useRef(null);
@@ -28,6 +25,20 @@ const Career = () => {
 
   const horizontalImagesRef = useRef(null);
   const [totalContentWidth, setTotalContentWidth] = useState(0);
+  
+  // State to track if the screen is mobile-sized
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Effect to check screen size on mount and resize
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768); // Tailwind's `md` breakpoint
+    };
+    checkScreenSize(); // Check initially
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
 
   useEffect(() => {
     // Function to calculate and set the scrollable width
@@ -37,16 +48,10 @@ const Career = () => {
       }
     };
 
-    // Calculate on initial mount
     calculateWidth();
-
-    // Recalculate on window resize to handle orientation changes or browser resizing
     window.addEventListener("resize", calculateWidth);
-
-    // Also recalculate after a short delay to ensure images have loaded and rendered
     const imageLoadTimeout = setTimeout(calculateWidth, 500);
 
-    // Cleanup function to remove event listener
     return () => {
       window.removeEventListener("resize", calculateWidth);
       clearTimeout(imageLoadTimeout);
@@ -282,8 +287,8 @@ const Career = () => {
         </div>
       </section>
 
-      {/* 3. Image Gallery Section */}
-      <section ref={gallerySectionRef} className="py-16 sm:py-20 md:py-10 overflow-hidden relative">
+      {/* 3. Image Gallery Section - NOW RESPONSIVE */}
+      <section ref={gallerySectionRef} className="py-16 sm:py-20 md:py-10 bg-gray-50 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 mb-12 text-center">
           <div className="relative inline-block">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#1A2A80] leading-tight mb-4">
@@ -296,21 +301,28 @@ const Career = () => {
           </div>
 
           <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
-            Scroll down to explore the daily life, collaboration, and culture
-            that make Star Publicity a truly unique place to thrive.
+            {isMobile ? "Swipe to explore our world." : "Scroll down to explore the daily life, collaboration, and culture that make Star Publicity a truly unique place to thrive."}
           </p>
         </div>
 
-        <div className="overflow-hidden relative z-10">
+        {/* MODIFIED: This container enables native horizontal scroll on mobile */}
+        <div
+          className={`relative z-10 ${
+            isMobile
+              ? "overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              : "overflow-hidden"
+          }`}
+        >
+          {/* MODIFIED: Conditional style to apply transform only on desktop */}
           <motion.div
             ref={horizontalImagesRef}
             className="flex space-x-4 md:space-x-6 px-4 sm:px-6 md:px-12 w-max"
-            style={{ x: xTransform }}
+            style={isMobile ? {} : { x: xTransform }}
           >
             {GALLERY_IMAGES.map((src, index) => (
               <motion.div
                 key={index}
-                className="h-[450px] md:h-[550px] w-[280px] md:w-[360px] flex-shrink-0 overflow-hidden rounded-lg relative flex items-center justify-center"
+                className="h-[450px] md:h-[550px] w-[280px] md:w-[360px] flex-shrink-0 overflow-hidden rounded-lg relative flex items-center justify-center shadow-lg"
                 transition={{ duration: 0.2 }}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -329,15 +341,18 @@ const Career = () => {
           </motion.div>
         </div>
 
-        <div className="mt-12 flex items-center justify-center space-x-2 text-gray-600 text-sm">
-          <motion.svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ repeat: Infinity, repeatType: "mirror", duration: 1 }}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </motion.svg>
-          <span>Scroll Down to See More</span>
-          <motion.div className="w-24 h-1 bg-gray-300 rounded-full overflow-hidden">
-            <motion.div className="h-full bg-[#1A2A80]" style={{ scaleX: galleryScrollYProgress, originX: 0 }} />
-          </motion.div>
-        </div>
+        {/* Hide scroll indicator bar on mobile as it's not relevant for swipe */}
+        {!isMobile && (
+             <div className="mt-12 flex items-center justify-center space-x-2 text-gray-600 text-sm">
+                <motion.svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ repeat: Infinity, repeatType: "mirror", duration: 1 }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </motion.svg>
+                <span>Scroll Down to See More</span>
+                <motion.div className="w-24 h-1 bg-gray-300 rounded-full overflow-hidden">
+                    <motion.div className="h-full bg-[#1A2A80]" style={{ scaleX: galleryScrollYProgress, originX: 0 }} />
+                </motion.div>
+             </div>
+        )}
       </section>
 
       {/* 4. "We Are Star Publicity" Section */}
@@ -395,7 +410,6 @@ const Career = () => {
           viewport={{ once: true, amount: 0.3 }}
         >
           <img
-            // CORRECTED: Using direct path string for src
             src="/assets/herobus.png"
             alt="Star Publicity Team or Concept"
             className="w-[500px] h-auto md:w-[800px] lg:w-[1200px] object-contain"

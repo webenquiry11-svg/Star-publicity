@@ -36,8 +36,10 @@ const AnnouncementBanner = ({ onClose }) => {
           initial="initial"
           animate="animate"
           exit="exit"
-          // PLACEMENT: Bottom-left corner.
-          className="fixed bottom-5 left-5 z-50 w-full max-w-sm"
+          // PLACEMENT: Bottom-center on small screens, bottom-left on medium screens and up.
+          // We use left-1/2 and -translate-x-1/2 to center it horizontally.
+          // The `md:` prefix applies styles from the medium breakpoint and up.
+          className="fixed bottom-5 left-1/2 -translate-x-1/2 md:left-5 md:translate-x-0 z-50 w-full max-w-sm"
         >
           <div
             className="relative overflow-hidden rounded-xl border border-white/10 
