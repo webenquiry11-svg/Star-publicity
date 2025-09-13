@@ -41,7 +41,6 @@ import {
   FaEye,
   FaCheckCircle,
   FaStickyNote,
-  FaPlus,
   FaFileDownload,
   FaInfoCircle,
   FaUser,
@@ -52,6 +51,7 @@ import {
   FaExternalLinkAlt,
 } from "react-icons/fa";
 
+import { FaPlus } from 'react-icons/fa';
 // Use aliases for icons that have a generic name to avoid conflicts and improve clarity
 import {
   FaCalendarAlt as FaCalendarIcon,
@@ -699,6 +699,7 @@ const AdminPanel = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null); // 'job', 'blog', or 'reel'
   const [modalId, setModalId] = useState(null);
+
 
   // +++ Notification System State +++
   const [notifications, setNotifications] = useState([]);
@@ -3739,7 +3740,7 @@ const AdminPanel = () => {
                         </button>
                       )}
                       <button
-                        type="submit"
+                        type="submit" 
                         className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
                         disabled={isAddingBlog || isUpdatingBlog}
                       >

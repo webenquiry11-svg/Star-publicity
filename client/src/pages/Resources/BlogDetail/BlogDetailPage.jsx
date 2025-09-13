@@ -72,12 +72,12 @@ const generateContentHTML = (blocks) => {
     switch (block.type) {
       case "heading":
         const headingClasses = {
-          1: "text-4xl font-extrabold mt-10 mb-4 text-gray-900",
-          2: "text-3xl font-bold mt-10 mb-4 text-gray-900",
-          3: "text-2xl font-bold mt-10 mb-4 text-gray-900",
-          4: "text-xl font-bold mt-10 mb-4 text-gray-900",
-          5: "text-lg font-semibold mt-8 mb-3 text-gray-900",
-          6: "text-base font-semibold mt-8 mb-3 text-gray-900",
+          1: "text-4xl font-extrabold mt-12 mb-6 py-4 px-6 bg-blue-50 text-gray-900 tracking-tight rounded-lg shadow-sm border border-blue-100",
+          2: "text-3xl font-bold mt-12 mb-6 py-4 px-6 bg-blue-50 text-gray-900 tracking-tight rounded-lg shadow-sm border border-blue-100",
+          3: "text-2xl font-semibold mt-10 mb-5 text-blue-800 tracking-tight",
+          4: "text-xl font-semibold mt-10 mb-5 text-blue-800 tracking-tight",
+          5: "text-lg font-bold mt-8 mb-4 text-gray-900",
+          6: "text-base font-bold mt-8 mb-4 text-gray-900",
         };
         const level = block.level || 2;
         const classes = headingClasses[level] || headingClasses[2];

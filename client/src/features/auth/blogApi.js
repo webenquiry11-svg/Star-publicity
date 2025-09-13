@@ -28,8 +28,7 @@ export const blogApi = createApi({
         method: 'POST',
         body: formData,  
       }),
-      // Invalidates the 'Blog' tag, triggering a re-fetch of getBlogs
-      invalidatesTags: ['Blog'],  
+      invalidatesTags: ['Blog'], // Invalidate the general 'Blog' list tag
     }),
 
     // Mutation to delete a blog
@@ -38,7 +37,7 @@ export const blogApi = createApi({
         url: `blogs/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Blog'], // Triggers re-fetch after deletion
+      invalidatesTags: ['Blog'], // Invalidate the general 'Blog' list tag
     }),
 
     // Mutation to update a blog (Correctly handles 'id' and 'formData')
@@ -49,7 +48,7 @@ export const blogApi = createApi({
         method: 'PUT',  
         body: formData, // Send the FormData object (including new image and old imageId)
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: 'Blog', id }], // Invalidate specific blog and all blogs
+      invalidatesTags: (result, error, { id }) => ['Blog', { type: 'Blog', id }],
     }),
 
     // NEW: Mutation to submit the contact form
