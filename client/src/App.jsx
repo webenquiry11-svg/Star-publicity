@@ -1,129 +1,100 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, Suspense } from "react"; // 1. Import Suspense
 import "./index.css";
 import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
-  Outlet,
   useNavigate,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
-
-// We assume your auth slice has a `setCredentials` action. Adjust path if needed.
 import { setCredentials } from "./features/auth/authSlice";
-
 import MainLayout from "./layout/MainLayout";
-import Markets from "./pages/user/Markets";
-import Career from "./pages/user/Career";
+import ChatWidget from "./pages/ChatBot/ChatWidget";
+
+// --- HOMEPAGE COMPONENTS ---
 import HeroSection from "./pages/user/HeroSection";
 import HomeAbout from "./pages/AboutHome";
-import StatsSection from "./pages/StatsSection";
 import MediaFinder from "./pages/MediaFinder";
 import ServicesSection from "./pages/ServicesSection";
 import ConnectSection from "./pages/ConnectSection";
-import AboutUs from "./pages/user/About";
-import Unipoles from "./pages/Media/ATL/Unipoles";
-import BusBranding from "./pages/Media/ATL/BusBranding";
-import BusStand from "./pages/Media/ATL/BusStand";
-import CityGanteries from "./pages/Media/ATL/CityGanteries";
-import KiosksAdvertisements from "./pages/Media/ATL/KiosksAdvertisements";
-import CityMallAdvertisements from "./pages/Media/ATL/CityMallAdvertisements";
-import VanActivity from "./pages/Media/ATL/VanActivity";
-import PetrolPumps from "./pages/Media/ATL/PetrolPumps";
-import WallWraps from "./pages/Media/ATL/WallWraps";
-import WallPaintings from "./pages/Media/ATL/WallPaintings";
-import IndianRailwayTrainsStations from "./pages/Media/ATL/IndianRailwayTrainsStations";
-import MetroTrainsStations from "./pages/Media/ATL/MetroTrainsStations";
-import AirportAdvertisements from "./pages/Media/ATL/AirportAdvertisements";
-import NewspaperAdvertisements from "./pages/Media/ATL/NewspaperAdvertisements";
-import TelevisionAdvertisements from "./pages/Media/ATL/TelevisionAdvertisements";
-import FMRadioAdvertisements from "./pages/Media/ATL/FMRadioAdvertisements";
-import CinemaAdvertising from "./pages/Media/BTL/CinemaAdvertising";
-import DhabaBranding from "./pages/Media/BTL/DhabaBranding";
-import EventBrandings from "./pages/Media/BTL/EventBrandings";
-import LookWalker from "./pages/Media/BTL/LookWalker";
-import PoleSunpacks from "./pages/Media/BTL/PoleSunpacks";
-import RetailBranding from "./pages/Media/BTL/RetailBranding";
-import SeminarsBranding from "./pages/Media/BTL/SeminarsBranding";
-import TrafficBarricades from "./pages/Media/BTL/TrafficBarricades";
-import ATLMarketing from "./pages/Media/ATL/ATL";
-import BTLMarketing from "./pages/Media/BTL/BTL";
-import BrandCollaboration from "./pages/Media/TTL/BrandCollaboration";
-import EmailWhatsappMarketing from "./pages/Media/TTL/EmailWhatsappMarketing";
-import GoogleAds from "./pages/Media/TTL/GoogleAds";
-import MallInsideLedAds from "./pages/Media/TTL/MallInsideLedAds";
-import McLedHoardingsAds from "./pages/Media/TTL/McLedHoardingsAds";
-import SocialMediaAdvertising from "./pages/Media/TTL/SocialMediaAdvertising";
-import TTLMarketing from "./pages/Media/TTL/TTL";
-import AutoBranding from "./pages/Media/ATL/AutoBranding";
-import Blogs from "./pages/Resources/Blogs";
-import RegisterForm from "./pages/Forms/RegisterForm";
-import ResetPasswordForm from "./pages/Forms/ResetPasswordForm";
-import AuthForm from "./pages/Forms/AuthForm";
-import ContactUs from "./pages/Forms/ContactUs";
-import AdminPanel from "./pages/Admin/AdminPanel";
-import Compaigns from "./pages/user/Compaigns";
-import Products from "./pages/Resources/Products";
-import BlogDetailPage from "./pages/Resources/BlogDetail/BlogDetailPage";
-import JobPosition from "./pages/user/JobPosition";
-import Media from "./pages/user/Media";
 import AdEspressoSection from "./pages/AdEspressoSection";
 import LatestBlogsSection from "./pages/LatestBlogSection";
-import QuickEnquiry from "./pages/QuickEnquiry";
-import TalkToExperts from "./pages/TalkToExperts";
-import ChatWidget from "./pages/ChatBot/ChatWidget";
 
-// --- ADMIN AUTH PROTECTION ---
+// --- LAZY-LOADED PAGE COMPONENTS ---
+// 2. Define all page components using React.lazy
+const AboutUs = React.lazy(() => import("./pages/user/About"));
+const Media = React.lazy(() => import("./pages/user/Media"));
+const ATLMarketing = React.lazy(() => import("./pages/Media/ATL/ATL"));
+const Unipoles = React.lazy(() => import("./pages/Media/ATL/Unipoles"));
+const BusBranding = React.lazy(() => import("./pages/Media/ATL/BusBranding"));
+const BusStand = React.lazy(() => import("./pages/Media/ATL/BusStand"));
+const AutoBranding = React.lazy(() => import("./pages/Media/ATL/AutoBranding"));
+const CityGanteries = React.lazy(() => import("./pages/Media/ATL/CityGanteries"));
+const KiosksAdvertisements = React.lazy(() => import("./pages/Media/ATL/KiosksAdvertisements"));
+const CityMallAdvertisements = React.lazy(() => import("./pages/Media/ATL/CityMallAdvertisements"));
+const VanActivity = React.lazy(() => import("./pages/Media/ATL/VanActivity"));
+const PetrolPumps = React.lazy(() => import("./pages/Media/ATL/PetrolPumps"));
+const WallWraps = React.lazy(() => import("./pages/Media/ATL/WallWraps"));
+const WallPaintings = React.lazy(() => import("./pages/Media/ATL/WallPaintings"));
+const IndianRailwayTrainsStations = React.lazy(() => import("./pages/Media/ATL/IndianRailwayTrainsStations"));
+const MetroTrainsStations = React.lazy(() => import("./pages/Media/ATL/MetroTrainsStations"));
+const AirportAdvertisements = React.lazy(() => import("./pages/Media/ATL/AirportAdvertisements"));
+const NewspaperAdvertisements = React.lazy(() => import("./pages/Media/ATL/NewspaperAdvertisements"));
+const TelevisionAdvertisements = React.lazy(() => import("./pages/Media/ATL/TelevisionAdvertisements"));
+const FMRadioAdvertisements = React.lazy(() => import("./pages/Media/ATL/FMRadioAdvertisements"));
+const BTLMarketing = React.lazy(() => import("./pages/Media/BTL/BTL"));
+const CinemaAdvertising = React.lazy(() => import("./pages/Media/BTL/CinemaAdvertising"));
+const DhabaBranding = React.lazy(() => import("./pages/Media/BTL/DhabaBranding"));
+const EventBrandings = React.lazy(() => import("./pages/Media/BTL/EventBrandings"));
+const LookWalker = React.lazy(() => import("./pages/Media/BTL/LookWalker"));
+const PoleSunpacks = React.lazy(() => import("./pages/Media/BTL/PoleSunpacks"));
+const RetailBranding = React.lazy(() => import("./pages/Media/BTL/RetailBranding"));
+const SeminarsBranding = React.lazy(() => import("./pages/Media/BTL/SeminarsBranding"));
+const TrafficBarricades = React.lazy(() => import("./pages/Media/BTL/TrafficBarricades"));
+const TTLMarketing = React.lazy(() => import("./pages/Media/TTL/TTL"));
+const BrandCollaboration = React.lazy(() => import("./pages/Media/TTL/BrandCollaboration"));
+const EmailWhatsappMarketing = React.lazy(() => import("./pages/Media/TTL/EmailWhatsappMarketing"));
+const MallInsideLedAds = React.lazy(() => import("./pages/Media/TTL/MallInsideLedAds"));
+const McLedHoardingsAds = React.lazy(() => import("./pages/Media/TTL/McLedHoardingsAds"));
+const SocialMediaAdvertising = React.lazy(() => import("./pages/Media/TTL/SocialMediaAdvertising"));
+const GoogleAds = React.lazy(() => import("./pages/Media/TTL/GoogleAds"));
+const Blogs = React.lazy(() => import("./pages/Resources/Blogs"));
+const BlogDetailPage = React.lazy(() => import("./pages/Resources/BlogDetail/BlogDetailPage"));
+const Products = React.lazy(() => import("./pages/Resources/Products"));
+const Compaigns = React.lazy(() => import("./pages/user/Compaigns"));
+const Career = React.lazy(() => import("./pages/user/Career"));
+const JobPosition = React.lazy(() => import("./pages/user/JobPosition"));
+const ContactUs = React.lazy(() => import("./pages/Forms/ContactUs"));
+const AdminPanel = React.lazy(() => import("./pages/Admin/AdminPanel"));
+const AuthForm = React.lazy(() => import("./pages/Forms/AuthForm"));
+const RegisterForm = React.lazy(() => import("./pages/Forms/RegisterForm"));
+const ResetPasswordForm = React.lazy(() => import("./pages/Forms/ResetPasswordForm"));
 
+
+// --- ADMIN AUTH & SESSION MANAGEMENT (No changes) ---
 const AdminRoute = () => {
   const { userInfo } = useSelector((state) => state.auth);
-
-  // When the user logs out, the `logout` action sets `userInfo` to null.
-  // This check then fails, and the user is immediately redirected to the login page.
-  // This is the primary protective layer for the admin route.
-  if (!userInfo) {
-    return <Navigate to="/login" replace />;
-  }
-
-  // This is a secondary check to ensure the user has the correct role,
-  // even if they have a valid token.
+  if (!userInfo) { return <Navigate to="/login" replace />; }
   const isAdmin = userInfo.role === "admin" || userInfo.role === "superAdmin";
-
-  // If user is an admin, show the panel. Otherwise, redirect to the homepage.
-  return isAdmin ? <AdminPanel /> : <Navigate to="/" replace />;
+  return isAdmin ? <Suspense fallback={<div>Loading...</div>}><AdminPanel /></Suspense> : <Navigate to="/" replace />;
 };
 
-// Prevent logged-in admins from seeing auth pages
 const GuestRoute = ({ children }) => {
   const { userInfo } = useSelector((state) => state.auth);
-
-  // If a logged-in admin tries to access a guest page (login/register),
-  // redirect them to the admin panel.
   if (userInfo && (userInfo.role === "admin" || userInfo.role === "superAdmin")) {
     return <Navigate to="/admin" replace />;
   }
-
-  // Otherwise, show the guest page.
-  return children;
+  return <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>;
 };
 
-// --- UNIFIED SESSION MANAGEMENT ---
-
-// This single component handles both re-hydrating the session on app load
-// and redirecting the user to the login page upon logout.
-// It replaces the old AuthStateWatcher and the useEffect in the App component.
 const SessionManager = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
-
-  // A ref to track the previous user state to detect changes.
   const previousUserInfoRef = useRef(userInfo);
 
-  // Effect 1: Handles re-hydrating the session from localStorage on initial app load.
-  // This runs only once when the component mounts.
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
     if (token) {
@@ -131,25 +102,36 @@ const SessionManager = () => {
         const user = jwtDecode(token);
         dispatch(setCredentials({ user, token }));
       } catch (error) {
-        console.error("Failed to decode token on app load, logging out:", error);
+        console.error("Failed to decode token, logging out:", error);
         localStorage.removeItem("adminToken");
       }
     }
   }, [dispatch]);
 
-  // Effect 2: Watches for changes in the user's authentication state to handle logout.
   useEffect(() => {
-    // If there was a user in the previous state, but not in the current one, it means they logged out.
-    if (previousUserInfoRef.current && !userInfo) {
-      navigate('/login');
-    }
-    // Update the ref with the current user info for the next render cycle.
+    if (previousUserInfoRef.current && !userInfo) { navigate('/login'); }
     previousUserInfoRef.current = userInfo;
   }, [userInfo, navigate]);
 
-  return null; // This component does not render anything to the UI.
+  return null;
 };
 
+// --- HOMEPAGE COMPONENT ---
+const HomePage = () => {
+  return (
+    <>
+      <HeroSection />
+      <AdEspressoSection />
+      <HomeAbout />
+      <MediaFinder />
+      <ServicesSection />
+      <ConnectSection />
+      <LatestBlogsSection />
+    </>
+  );
+};
+
+// --- UPDATED ROUTER ---
 const AppRouter = createBrowserRouter([
   {
     path: "/",
@@ -162,22 +144,8 @@ const AppRouter = createBrowserRouter([
       </>
     ),
     children: [
-      {
-        path: "/",
-        element: (
-          <>
-            <HeroSection />
-            <AdEspressoSection />
-            <HomeAbout />
-            <MediaFinder />
-            <ServicesSection />
-            <ConnectSection />
-            <LatestBlogsSection />
-          </>
-        ),
-      },
+      { index: true, element: <HomePage /> },
       { path: "about", element: <AboutUs /> },
-
       {
         path: "media",
         children: [
@@ -211,10 +179,7 @@ const AppRouter = createBrowserRouter([
           { path: "BTL/traffic-barricades", element: <TrafficBarricades /> },
           { path: "TTL", element: <TTLMarketing /> },
           { path: "TTL/brand-collaboration", element: <BrandCollaboration /> },
-          {
-            path: "TTL/email-whatsapp-marketing",
-            element: <EmailWhatsappMarketing />,
-          },
+          { path: "TTL/email-whatsapp-marketing", element: <EmailWhatsappMarketing /> },
           { path: "TTL/mall-inside-led", element: <MallInsideLedAds /> },
           { path: "TTL/mc-led-hoardings", element: <McLedHoardingsAds /> },
           { path: "TTL/social-media-ads", element: <SocialMediaAdvertising /> },
@@ -232,29 +197,18 @@ const AppRouter = createBrowserRouter([
       { path: "campaigns", element: <Compaigns /> },
       { path: "career", element: <Career /> },
       { path: "JobPosition", element: <JobPosition /> },
-      {
-        path: "login",
-        element: <GuestRoute><AuthForm /></GuestRoute>,
-      },
-      {
-        path: "register",
-        element: <GuestRoute><RegisterForm /></GuestRoute>,
-      },
-      {
-        path: "forgot-password",
-        // This now points to the unified ResetPasswordForm
-        element: <GuestRoute><ResetPasswordForm /></GuestRoute>,
-      },
-      { path: "admin", element: <AdminRoute /> },
       { path: "contact", element: <ContactUs /> },
+      { path: "login", element: <GuestRoute><AuthForm /></GuestRoute> },
+      { path: "register", element: <GuestRoute><RegisterForm /></GuestRoute> },
+      { path: "forgot-password", element: <GuestRoute><ResetPasswordForm /></GuestRoute> },
+      { path: "admin", element: <AdminRoute /> },
     ],
   },
 ]);
 
 function App() {
-  // All session logic has been moved into the SessionManager component
-  // to keep the root App component clean.
   return <RouterProvider router={AppRouter} />;
 }
 
 export default App;
+

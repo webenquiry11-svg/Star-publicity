@@ -1,0 +1,13 @@
+{
+  "name": "starpublicity-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start:server": "npm start --prefix server",
+    "start:client": "npm run dev --prefix client",
+    "sitemap": "node ./sitemap-generator.js"
+  },
+  "dependencies": {
+    "sitemap": "^8.0.0"
+  }
+}

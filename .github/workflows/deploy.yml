@@ -30,30 +30,30 @@ jobs:
             # Load Node.js and npm into the session using NVM
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            
+
             echo "--- Navigating to project directory ---"
             cd /var/www/STARPUBLICITY
-            
+
             echo "--- Pulling latest code from GitHub ---"
             # Pull the latest code from the 'main' branch on GitHub
             git pull origin main
-            
+
             echo "--- Installing backend dependencies ---"
             cd server
             # 'npm ci' is a cleaner and more reliable install for CI/CD environments
             npm ci
             cd ..
-            
+
             echo "--- Installing frontend dependencies and building ---"
             cd client
             # Use 'npm ci' for the frontend as well
             npm ci
             npm run build
             cd ..
-            
+
             echo "--- Reloading backend application for zero-downtime update ---"
             # 'pm2 reload' updates the application without any downtime for users
             pm2 reload starpublicity-api
             pm2 save
-            
+
             echo "--- Deployment complete ---"

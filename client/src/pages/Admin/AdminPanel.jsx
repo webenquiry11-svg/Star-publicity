@@ -1600,10 +1600,8 @@ const AdminPanel = () => {
         `Error ${isEditingBlog ? "updating" : "publishing"} blog:`,
         error
       );
-      toast.error(
-        `Failed to ${isEditingBlog ? "update" : "publish"} blog post.`,
-        "error"
-      );
+      const errorMessage = error?.data?.message || `Failed to ${isEditingBlog ? "update" : "publish"} blog post.`;
+      toast.error(errorMessage);
     }
   };
 
@@ -3746,7 +3744,7 @@ const AdminPanel = () => {
                         disabled={isAddingBlog || isUpdatingBlog}
                       >
                         {isAddingBlog || isUpdatingBlog ? (
-                          <FaSpinner className="animate-spin inline-block mr-2" />
+                          <FaSpinner className="animate-spin" />
                         ) : isEditingBlog ? (
                           "Update Blog"
                         ) : (
