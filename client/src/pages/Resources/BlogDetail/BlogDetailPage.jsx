@@ -99,10 +99,13 @@ const generateContentHTML = (blocks) => {
         break;
       case "quote":
         html += `
-          <blockquote>
-            <p>${block.text}</p>
-            ${block.author ? `<cite>— ${block.author}</cite>` : ""}
-          </blockquote>`;
+          <blockquote class="relative my-10 p-6 md:p-8 bg-blue-50 border-l-4 border-blue-500 rounded-r-xl shadow-lg text-blue-900">
+            <div class="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 text-blue-200 text-8xl font-serif opacity-80" aria-hidden="true">“</div>
+            <p class="text-xl md:text-2xl italic font-serif leading-relaxed">${block.text}</p>
+            ${block.author ? `<cite class="block text-right mt-4 text-base font-semibold text-blue-700">— ${block.author}</cite>` : ""}
+            <div class="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 text-blue-200 text-8xl font-serif opacity-80" aria-hidden="true">”</div>
+          </blockquote>
+        `;
         break;
       default:
         html += `<p class="text-gray-900">${block.text || ""}</p>`;
@@ -543,7 +546,7 @@ const BlogDetailPage = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="lg:grid lg:grid-cols-3 lg:gap-12">
-          <main className="lg:col-span-2" ref={contentRef}>
+          <main className="lg:col-span-2 prose-p:text-justify" ref={contentRef}>
             <article className="prose prose-lg max-w-none prose-p:leading-relaxed prose-p:mb-5 prose-a:text-blue-600 prose-a:hover:text-blue-800 prose-a:font-medium prose-a:underline prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-blue-800 prose-blockquote:bg-blue-50 prose-blockquote:py-3 prose-blockquote:px-5 prose-blockquote:rounded-r-md prose-blockquote:shadow-sm prose-li:mb-2 prose-ul:list-disc prose-ul:pl-5 prose-ul:marker:text-blue-500 prose-ol:list-decimal prose-ol:pl-5 prose-ol:marker:text-blue-500 prose-img:rounded-2xl prose-img:shadow-lg prose-img:border prose-img:border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#1A2A80]focus:ring-opacity-50">
               <div dangerouslySetInnerHTML={{ __html: contentHTML }} />
               {post.keyHighlights && post.keyHighlights.length > 0 && (
