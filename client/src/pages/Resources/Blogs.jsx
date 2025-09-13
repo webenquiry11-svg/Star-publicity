@@ -12,6 +12,7 @@ import { Sparkles, ArrowRight, X } from "lucide-react";
 import { createPortal } from "react-dom";
 import { useGetBlogsQuery } from "../../features/auth/blogApi";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 // ===============================================
 // MODAL COMPONENT (InternalModal)
@@ -345,6 +346,28 @@ const WorkCard = ({ item, index }) => {
 // ===============================================
 
 const Blogs = () => {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Star Publicity Blog | Outdoor Advertising Insights",
+    "description": "Explore the latest insights, trends, and case studies in outdoor advertising from the experts at Star Publicity. Stay informed and get inspired.",
+    "url": "https://www.starpublicity.co.in/resources/blogs",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Star Publicity India",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.starpublicity.co.in/logo.png"
+      }
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": [
+        // This can be populated dynamically if needed, but a static representation is also fine.
+      ]
+    }
+  };
+
   const globalTilt = useGlobalTilt(0.03);
   const navigate = useNavigate();
   const location = useLocation();
@@ -522,6 +545,13 @@ const Blogs = () => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white text-gray-900 min-h-screen font-sans overflow-x-hidden">
+      <Helmet>
+        <title>Star Publicity Blog | Outdoor Advertising Insights</title>
+        <meta name="description" content="Explore the latest insights, trends, and case studies in outdoor advertising from the experts at Star Publicity. Stay informed and get inspired." />
+        <link rel="canonical" href="https://www.starpublicity.co.in/resources/blogs" />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Helmet>
+
       <section
         ref={heroRef}
         className="relative h-[60vh] md:h-[80vh] flex flex-col items-start justify-end text-white overflow-hidden p-6 pb-16 md:p-16 md:pb-24 lg:p-24 lg:pb-32"

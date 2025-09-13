@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { Helmet } from 'react-helmet-async'; // 1. Import Helmet
 import {
   motion,
   useInView,
@@ -17,7 +18,6 @@ const keyPoints = [
 ];
 
 // --- CORRECTED: OrbitingPoint component ---
-// Text rotation has been removed.
 const OrbitingPoint = ({ point, autoRotation }) => {
   const outerRadius = 320;
   const parentSize = 720;
@@ -34,9 +34,6 @@ const OrbitingPoint = ({ point, autoRotation }) => {
     return centerOffset + outerRadius * Math.sin(angleInRadians) - pointSize / 2;
   });
     
-  // REMOVED: The textRotation constant is no longer needed.
-  // const textRotation = useTransform(autoRotation, (rotation) => -rotation);
-
   return (
     <motion.div
       className="absolute bg-[#1A2A80] text-white rounded-full flex items-center justify-center p-2 text-center shadow-md z-30"
@@ -47,7 +44,6 @@ const OrbitingPoint = ({ point, autoRotation }) => {
         top: y 
       }}
     >
-      {/* REMOVED: The style prop that applied the rotation is gone. */}
       <motion.span className="font-medium text-xs">{point.text}</motion.span>
     </motion.div>
   );
@@ -87,6 +83,21 @@ const LiquidReveal = ({ isInView }) => {
 };
 
 const AboutUs = () => {
+  // 2. Define the schema for your organization
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Star Publicity India",
+    "url": "https://www.starpublicity.co.in/about",
+    "logo": "https://www.starpublicity.co.in/logo.png",
+    "description": "Learn about Star Publicity India, the leading outdoor advertising agency in North India. Discover our mission, vision, and the expert team dedicated to your brand's success.",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91-7403434074",
+      "contactType": "Customer Service"
+    }
+  };
+
   const welcomeSectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: welcomeSectionRef,
@@ -119,7 +130,6 @@ const AboutUs = () => {
     },
   };
 
-  // --- Quote Section (Continuous Scroll Effect for Heading) ---
   const quoteSectionRef = useRef(null);
   const { scrollYProgress: quoteScrollProgress } = useScroll({
     target: quoteSectionRef,
@@ -130,7 +140,6 @@ const AboutUs = () => {
   const xQuoteLine2 = useTransform(quoteScrollProgress, [0, 1], [400, -400]);
   const xQuoteLine3 = useTransform(quoteScrollProgress, [0, 1], [-300, 300]);
 
-  // --- Quote Section (Entrance Animation for Attribution Text) ---
   const attributionRef = useRef(null);
   const isAttributionInView = useInView(attributionRef, { once: true, amount: 0.5 });
   const attributionVariants = {
@@ -142,7 +151,6 @@ const AboutUs = () => {
     },
   };
 
-  // --- Start: Automatic Rolling Circle Animation Setup ---
   const autoRotation = useMotionValue(0);
 
   useEffect(() => {
@@ -154,6 +162,19 @@ const AboutUs = () => {
   
   return (
     <>
+      {/* 3. Add the Helmet component with all SEO tags */}
+      <Helmet>
+        <title>About Star Publicity | North India's Leading Advertising Agency</title>
+        <meta 
+          name="description" 
+          content="Learn about Star Publicity India, the expert team behind North India's most successful outdoor advertising campaigns. Discover our mission and values." 
+        />
+        <link rel="canonical" href="https://www.yourwebsite.com/about" />
+        <script type="application/ld+json">
+          {JSON.stringify(schemaData)}
+        </script>
+      </Helmet>
+
       {/* === Top Hero Section (UNCHANGED) === */}
       <section className="relative w-full min-h-[70vh] sm:min-h-[80vh] lg:min-h-screen flex flex-col justify-center overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('/assets/AboutpageImages/bg.png')`}}/>
@@ -191,7 +212,6 @@ const AboutUs = () => {
       {/* === UPGRADED: Expanding Circle Reveal Section (Fully Responsive) === */}
       <section ref={welcomeSectionRef} className="relative bg-white" style={{ height: '110vh' }}>
         <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-          {/* The expanding circle. It acts as a background reveal. */}
           <motion.div
             className="absolute bg-[#1A2A80] rounded-full"
             style={{
@@ -201,7 +221,6 @@ const AboutUs = () => {
             }}
           />
           
-          {/* The text that appears inside the circle reveal */}
           <motion.div
             className="relative flex flex-col items-center"
             style={{
@@ -210,7 +229,6 @@ const AboutUs = () => {
               y: textY,
             }}
           >
-            {/* Responsive font sizes applied below */}
             <h2 className="font-black text-white text-[14vw] md:text-[12vw] lg:text-[10vw] leading-none">WELCOME TO</h2>
             <h2 className="font-black text-white text-[18vw] md:text-[15vw] lg:text-[12vw] leading-none">STAR</h2>
             <h2 className="font-black text-white text-[14vw] md:text-[12vw] lg:text-[10vw] leading-none">PUBLICITY</h2>
@@ -264,7 +282,6 @@ const AboutUs = () => {
                 {/* Desktop: Orbiting Points Graphic */}
                 <div className="hidden lg:flex justify-center items-center w-full h-full">
                     <div className="relative flex justify-center items-center w-[720px] h-[720px]">
-                        {/* The main heading and text are now the central element */}
                         <div className="absolute z-20 text-black text-center max-w-lg">
                             <h2 className="font-bold text-3xl md:text-4xl mb-6 leading-tight">
                                 OUR APPROACH WITH <br className="hidden md:inline" />MULTI-MARKET BRANDS
@@ -312,10 +329,8 @@ const AboutUs = () => {
         ref={contactSectionRef} 
         className="relative w-full min-h-[90vh] sm:min-h-[800px] flex items-center justify-center overflow-hidden bg-gray-100 py-20 px-4 sm:px-6 lg:px-8 mt-20"
       >
-        {/* The liquid background reveal animation remains the same */}
         <LiquidReveal isInView={isInView} />
         
-        {/* Main content container with staggered animation */}
         <motion.div 
           variants={contentContainerVariants} 
           initial="hidden" 
@@ -340,7 +355,6 @@ const AboutUs = () => {
 
           {/* === Right Column: Contact Action Cards === */}
           <div className="w-full max-w-md mx-auto lg:mx-0 flex flex-col gap-6">
-            {/* Card 1: Phone Call */}
             <motion.a
               variants={contentItemVariants}
               href="tel:01614668602"
@@ -357,7 +371,6 @@ const AboutUs = () => {
               </div>
             </motion.a>
 
-            {/* Card 2: WhatsApp */}
             <motion.a
               variants={contentItemVariants}
               href="https://wa.me/917403434074?text=Hello%2C%20I%20would%20like%20to%20inquire%20about%20your%20services."
@@ -368,9 +381,8 @@ const AboutUs = () => {
               whileTap={{ scale: 0.98 }}
             >
               <div className="flex-shrink-0 bg-white/10 p-3 rounded-lg mr-5">
-                 {/* === NEW WHATSAPP ICON === */}
                  <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19.11 4.93A9.92 9.92 0 0 0 12.01 2C6.51 2 2.11 6.4 2.11 11.9c0 1.79.46 3.49 1.29 4.99L2 22l5.34-1.39a9.92 9.92 0 0 0 4.67 1.18h.01c5.49 0 9.9-4.4 9.9-9.9.01-2.73-1.09-5.22-2.9-7.06zm-7.1 14.28c-1.4 0-2.79-.4-4-1.12l-.29-.17-3 1.52.78-2.93-.19-.31a8.13 8.13 0 0 1-1.26-4.38c0-4.53 3.68-8.21 8.22-8.21a8.13 8.13 0 0 1 8.21 8.21c-.01 4.54-3.69 8.22-8.22 8.22zm4.26-6.12c-.24-.12-1.42-.7-1.65-.78s-.39-.12-.56.12c-.17.24-.62.78-.77.94s-.29.18-.54.06c-.25-.12-1.06-.39-2-1.23s-1.44-1.93-1.68-2.27c-.24-.34-.03-.52.1-.68.12-.14.26-.35.39-.53s.18-.29.26-.49.04-.38-.02-.5c-.06-.12-.56-1.34-.76-1.84s-.4-.42-.55-.42h-.53c-.18 0-.47.06-.71.31s-.94.92-.94 2.25.96 2.61 1.1 2.79c.14.18 1.88 2.88 4.56 4.03.62.27 1.1.43 1.48.56.59.2 1.12.17 1.52.1.45-.08 1.42-.58 1.62-1.14s.2-1.04.14-1.14c-.06-.12-.24-.18-.48-.3z"/>
+                   <path d="M19.11 4.93A9.92 9.92 0 0 0 12.01 2C6.51 2 2.11 6.4 2.11 11.9c0 1.79.46 3.49 1.29 4.99L2 22l5.34-1.39a9.92 9.92 0 0 0 4.67 1.18h.01c5.49 0 9.9-4.4 9.9-9.9.01-2.73-1.09-5.22-2.9-7.06zm-7.1 14.28c-1.4 0-2.79-.4-4-1.12l-.29-.17-3 1.52.78-2.93-.19-.31a8.13 8.13 0 0 1-1.26-4.38c0-4.53 3.68-8.21 8.22-8.21a8.13 8.13 0 0 1 8.21 8.21c-.01 4.54-3.69 8.22-8.22 8.22zm4.26-6.12c-.24-.12-1.42-.7-1.65-.78s-.39-.12-.56.12c-.17.24-.62.78-.77.94s-.29.18-.54.06c-.25-.12-1.06-.39-2-1.23s-1.44-1.93-1.68-2.27c-.24-.34-.03-.52.1-.68.12-.14.26-.35.39-.53s.18-.29.26-.49.04-.38-.02-.5c-.06-.12-.56-1.34-.76-1.84s-.4-.42-.55-.42h-.53c-.18 0-.47.06-.71.31s-.94.92-.94 2.25.96 2.61 1.1 2.79c.14.18 1.88 2.88 4.56 4.03.62.27 1.1.43 1.48.56.59.2 1.12.17 1.52.1.45-.08 1.42-.58 1.62-1.14s.2-1.04.14-1.14c-.06-.12-.24-.18-.48-.3z"/>
                  </svg>
               </div>
               <div>
@@ -386,3 +398,4 @@ const AboutUs = () => {
 };
 
 export default AboutUs;
+

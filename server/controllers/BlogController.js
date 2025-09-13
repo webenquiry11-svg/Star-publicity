@@ -28,7 +28,7 @@ const deleteImageFromCloudinary = (publicId) => {
 // Create a new blog post
 exports.createBlogPost = async (req, res) => {
   try {
-    const { title, author, tags, keyHighlightsTitle, keyHighlights, content, slug } =
+    const { blogTitle, blogAuthor, tags, keyHighlightsTitle, keyHighlights, content, slug } =
       req.body;
 
     const contentBlocks = JSON.parse(content);
@@ -70,8 +70,8 @@ exports.createBlogPost = async (req, res) => {
     }
 
     const newPost = new BlogPost({
-      title: title, // FIXED: Use the correct variable
-      author: author, // FIXED: Use the correct variable
+      title: blogTitle,
+      author: blogAuthor,
       tags: JSON.parse(tags || "[]"),
       keyHighlightsTitle,
       keyHighlights: JSON.parse(keyHighlights || "[]"),
@@ -95,7 +95,7 @@ exports.createBlogPost = async (req, res) => {
 exports.updateBlogPost = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, author, tags, keyHighlightsTitle, keyHighlights, content, slug } =
+    const { blogTitle, blogAuthor, tags, keyHighlightsTitle, keyHighlights, content, slug } =
       req.body;
 
     const blogToUpdate = await BlogPost.findById(id);
@@ -158,8 +158,8 @@ exports.updateBlogPost = async (req, res) => {
     }
 
     // Update fields in the database
-    blogToUpdate.title = title; // FIXED: Use the correct variable
-    blogToUpdate.author = author; // FIXED: Use the correct variable
+    blogToUpdate.title = blogTitle;
+    blogToUpdate.author = blogAuthor;
     blogToUpdate.tags = JSON.parse(tags || "[]");
     blogToUpdate.keyHighlightsTitle = keyHighlightsTitle;
     blogToUpdate.keyHighlights = JSON.parse(keyHighlights || "[]");

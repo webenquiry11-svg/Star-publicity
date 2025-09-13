@@ -9,9 +9,26 @@ import {
   Lightbulb,
   Hammer,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const Products = () => {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "url": "https://www.starpublicity.co.in/resources/products",
+    "name": "Manufacturing Excellence | Star Publicity Production",
+    "description": "Discover Star Publicity's advanced manufacturing unit. We are dedicated to quality control, flexible production, and fast delivery for all outdoor advertising products.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Star Publicity India",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.starpublicity.co.in/logo.png"
+      }
+    }
+  };
+
   // Create a ref for the CTA section to track its scroll position
   const ctaSectionRef = useRef(null);
 
@@ -76,6 +93,13 @@ const Products = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Manufacturing Excellence | Star Publicity Production</title>
+        <meta name="description" content="Discover Star Publicity's advanced manufacturing unit. We are dedicated to quality control, flexible production, and fast delivery for all outdoor advertising products." />
+        <link rel="canonical" href="https://www.starpublicity.co.in/resources/products" />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Helmet>
+
       {/* Hero Section */}
       <section
         className="relative w-full h-screen text-white overflow-hidden"

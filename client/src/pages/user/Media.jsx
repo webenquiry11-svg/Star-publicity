@@ -34,6 +34,7 @@ import {
   useSpring,
 } from "framer-motion";
 import { useRequestCallbackMutation } from "../../features/auth/mediaApi"; // Adjust path as needed
+import { Helmet } from "react-helmet-async";
 
 // --- FONT & STYLES ---
 const FontStyles = () => (
@@ -967,6 +968,25 @@ const AdvertisingMediaSection = () => {
 
 // --- MAIN PAGE COMPONENT ---
 const Media = () => {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "url": "https://www.starpublicity.co.in/media",
+    "name": "Advertising Media Portfolio | Star Publicity India",
+    "description": "Explore Star Publicity's extensive portfolio of outdoor advertising media, including hoardings, bus branding, digital OOH, and more across North India.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Star Publicity India",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.starpublicity.co.in/logo.png"
+      }
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": allMediaTypes.map((item, index) => ({ "@type": "ListItem", "position": index + 1, "name": item }))
+    }
+  };
   // ✅ State management for both modals
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
   const [isThankYouModalOpen, setIsThankYouModalOpen] = useState(false);
@@ -981,6 +1001,12 @@ const Media = () => {
 
   return (
     <div className="media-page-wrapper">
+      <Helmet>
+        <title>Advertising Media Portfolio | Star Publicity India</title>
+        <meta name="description" content="Explore Star Publicity's extensive portfolio of outdoor advertising media, including hoardings, bus branding, digital OOH, and more across North India." />
+        <link rel="canonical" href="https://www.starpublicity.co.in/media" />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Helmet>
       <FontStyles />
       <RequestCallbackModal
         isOpen={isRequestModalOpen}

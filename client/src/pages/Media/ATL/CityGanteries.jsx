@@ -1,7 +1,27 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion"; // Imported for the new CTA section
+import { Helmet } from "react-helmet-async";
 
 const CityGanteries = () => {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "City Gantry Advertising",
+    "name": "City Gantry Advertising Services | Star Publicity India",
+    "description": "Maximize brand visibility with Star Publicity's city gantry advertising. We offer strategic placement on major city routes for unparalleled exposure.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Star Publicity India",
+      "url": "https://www.starpublicity.co.in/",
+      "logo": "https://www.starpublicity.co.in/logo.png"
+    },
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "North India"
+    },
+    "url": "https://www.starpublicity.co.in/media/ATL/city-gantries"
+  };
+
   const refs = [
     useRef(null), // Hero section container
     useRef(null), // What We Offer section container
@@ -229,6 +249,13 @@ const CityGanteries = () => {
 
   return (
     <>
+      <Helmet>
+        <title>City Gantry Advertising Services | Star Publicity India</title>
+        <meta name="description" content="Maximize brand visibility with Star Publicity's city gantry advertising. We offer strategic placement on major city routes for unparalleled exposure." />
+        <link rel="canonical" href="https://www.starpublicity.co.in/media/ATL/city-gantries" />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Helmet>
+
       {/* Custom Styles & Keyframes */}
       <style>{`
         /* General Fade-In Effect */

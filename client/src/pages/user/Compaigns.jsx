@@ -17,6 +17,7 @@ import {
 } from "framer-motion";
 import { BsSunFill, BsMoonStarsFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const wrap = (min, max, value) => {
   const range = max - min;
@@ -679,8 +680,30 @@ const MarqueeLegacyCTA = ({ emailAddress }) => {
 };
 
 const Campaigns = () => {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "url": "https://www.starpublicity.co.in/campaigns",
+    "name": "Our Campaigns | Star Publicity India",
+    "description": "Explore the impactful and strategic advertising campaigns by Star Publicity. See how we captivate, engage, and convert for leading brands.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Star Publicity India",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.starpublicity.co.in/logo.png"
+      }
+    }
+  };
+
   return (
     <div className="campaign-font-scope">
+      <Helmet>
+        <title>Our Campaigns | Star Publicity India</title>
+        <meta name="description" content="Explore the impactful and strategic advertising campaigns by Star Publicity. See how we captivate, engage, and convert for leading brands." />
+        <link rel="canonical" href="https://www.starpublicity.co.in/campaigns" />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Helmet>
       <main
         className="min-h-screen w-full bg-gray-50 flex flex-col items-center justify-start relative"
         style={{

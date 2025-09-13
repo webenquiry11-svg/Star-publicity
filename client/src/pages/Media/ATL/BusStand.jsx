@@ -1,7 +1,27 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion"; // Imported for the new CTA section
+import { Helmet } from "react-helmet-async";
 
 const BusStand = () => {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Bus Stand Advertising",
+    "name": "Bus Stand Advertising Services | Star Publicity India",
+    "description": "Capture the attention of daily commuters with high-impact bus stand advertising. Star Publicity offers strategic placement and creative design for maximum visibility.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Star Publicity India",
+      "url": "https://www.starpublicity.co.in/",
+      "logo": "https://www.starpublicity.co.in/logo.png"
+    },
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "North India"
+    },
+    "url": "https://www.starpublicity.co.in/media/ATL/bus-stands"
+  };
+
   const refs = [
     useRef(null), // Hero section container
     useRef(null), // What We Offer section container
@@ -229,6 +249,13 @@ const BusStand = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Bus Stand Advertising Services | Star Publicity India</title>
+        <meta name="description" content="Capture the attention of daily commuters with high-impact bus stand advertising. Star Publicity offers strategic placement and creative design for maximum visibility." />
+        <link rel="canonical" href="https://www.starpublicity.co.in/media/ATL/bus-stands" />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Helmet>
+
       {/* Custom Styles & Keyframes */}
       <style>{`
         /* General Fade-In Effect */

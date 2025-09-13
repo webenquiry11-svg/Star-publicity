@@ -1558,8 +1558,8 @@ const AdminPanel = () => {
     }
 
     const formData = new FormData();
-    formData.append("title", blogData.blogTitle);
-    formData.append("author", blogData.blogAuthor);
+    formData.append("blogTitle", blogData.blogTitle);
+    formData.append("blogAuthor", blogData.blogAuthor);
     formData.append("tags", JSON.stringify(blogData.tags));
     formData.append("keyHighlightsTitle", blogData.keyHighlightsTitle);
     formData.append("keyHighlights", JSON.stringify(blogData.keyHighlights));

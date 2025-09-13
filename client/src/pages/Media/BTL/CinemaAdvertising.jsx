@@ -1,7 +1,27 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion"; // Imported for the new CTA section
+import { Helmet } from "react-helmet-async";
 
 const CinemaAdvertising = () => {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Cinema Advertising",
+    "name": "Cinema Advertising Services | Star Publicity India",
+    "description": "Engage a captive audience with immersive cinema advertising. Star Publicity provides strategic ad placement in theaters across North India for maximum impact.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Star Publicity India",
+      "url": "https://www.starpublicity.co.in/",
+      "logo": "https://www.starpublicity.co.in/logo.png"
+    },
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "North India"
+    },
+    "url": "https://www.starpublicity.co.in/media/BTL/cinema-advertising"
+  };
+
   const refs = [
     useRef(null), // Hero section container
     useRef(null), // What We Offer section container
@@ -229,6 +249,13 @@ const CinemaAdvertising = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Cinema Advertising Services | Star Publicity India</title>
+        <meta name="description" content="Engage a captive audience with immersive cinema advertising. Star Publicity provides strategic ad placement in theaters across North India for maximum impact." />
+        <link rel="canonical" href="https://www.starpublicity.co.in/media/BTL/cinema-advertising" />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Helmet>
+
       {/* Custom Styles & Keyframes */}
       <style>{`
         /* General Fade-In Effect */

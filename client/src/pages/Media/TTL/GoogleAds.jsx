@@ -1,7 +1,27 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion"; // Imported for the new CTA section
+import { Helmet } from "react-helmet-async";
 
 const GoogleAds = () => {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Google Ads Management",
+    "name": "Google Ads Management Services | Star Publicity India",
+    "description": "Drive targeted traffic and conversions with expert Google Ads management from Star Publicity. We create, manage, and optimize PPC campaigns for maximum ROI.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Star Publicity India",
+      "url": "https://www.starpublicity.co.in/",
+      "logo": "https://www.starpublicity.co.in/logo.png"
+    },
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "North India"
+    },
+    "url": "https://www.starpublicity.co.in/media/TTL/google-ads"
+  };
+
   const refs = [
     useRef(null), // Hero section container
     useRef(null), // What We Offer section container
@@ -229,6 +249,13 @@ const GoogleAds = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Google Ads Management Services | Star Publicity India</title>
+        <meta name="description" content="Drive targeted traffic and conversions with expert Google Ads management from Star Publicity. We create, manage, and optimize PPC campaigns for maximum ROI." />
+        <link rel="canonical" href="https://www.starpublicity.co.in/media/TTL/google-ads" />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Helmet>
+
       {/* Custom Styles & Keyframes */}
       <style>{`
         /* General Fade-In Effect */

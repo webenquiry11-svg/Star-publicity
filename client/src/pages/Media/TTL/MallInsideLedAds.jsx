@@ -1,7 +1,27 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion"; // Imported for the new CTA section
+import { Helmet } from "react-helmet-async";
 
 const MallInsideLedAds = () => {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Mall Inside LED Advertising",
+    "name": "Mall Inside LED Advertising Services | Star Publicity India",
+    "description": "Engage shoppers with dynamic Mall Inside LED Ads. Star Publicity offers premium placement in high-traffic malls for maximum brand impact and engagement.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Star Publicity India",
+      "url": "https://www.starpublicity.co.in/",
+      "logo": "https://www.starpublicity.co.in/logo.png"
+    },
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "North India"
+    },
+    "url": "https://www.starpublicity.co.in/media/TTL/mall-inside-led"
+  };
+
   const refs = [
     useRef(null), // Hero section container
     useRef(null), // What We Offer section container
@@ -229,6 +249,13 @@ const MallInsideLedAds = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Mall Inside LED Advertising Services | Star Publicity India</title>
+        <meta name="description" content="Engage shoppers with dynamic Mall Inside LED Ads. Star Publicity offers premium placement in high-traffic malls for maximum brand impact and engagement." />
+        <link rel="canonical" href="https://www.starpublicity.co.in/media/TTL/mall-inside-led" />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Helmet>
+
       {/* Custom Styles & Keyframes */}
       <style>{`
         /* General Fade-In Effect */

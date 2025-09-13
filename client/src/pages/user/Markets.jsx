@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { RefreshCcw, MapPin, Bus, TrainFront, Building, Megaphone, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 const random = (min, max) => Math.random() * (max - min) + min;
 
@@ -256,6 +257,26 @@ const AdvertisingMediaSection = () => {
 
 
 function Markets() {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "url": "https://www.starpublicity.co.in/markets",
+    "name": "Our Markets | Star Publicity India",
+    "description": "Discover the key markets Star Publicity serves across North India, including Delhi, Jammu & Kashmir, Himachal Pradesh, and Haryana. See our reach and impact.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Star Publicity India",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.starpublicity.co.in/logo.png"
+      }
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": marketData.map((market, index) => ({ "@type": "ListItem", "position": index + 1, "name": market.state }))
+    }
+  };
+
   const [key, setKey] = useState(0);
   const containerRef = useRef(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
@@ -310,6 +331,13 @@ function Markets() {
 
   return (
     <>
+      <Helmet>
+        <title>Our Markets | Star Publicity India</title>
+        <meta name="description" content="Discover the key markets Star Publicity serves across North India, including Delhi, Jammu & Kashmir, Himachal Pradesh, and Haryana. See our reach and impact." />
+        <link rel="canonical" href="https://www.starpublicity.co.in/markets" />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Helmet>
+
       {/* SECTION 1: Abstract Journey */}
       <div
         ref={containerRef}

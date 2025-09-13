@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 
 // Make sure you have created this mutation in your contactApi.js file
+import { Helmet } from "react-helmet-async";
 import { useSendBTLInquiryMutation } from "../../../features/auth/contactApi";
 
 const btlServices = [
@@ -24,6 +25,26 @@ const differentiators = [
 ];
 
 function BTLMarketing() {
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://www.starpublicity.co.in/media/BTL",
+        "name": "BTL (Below The Line) Marketing Services | Star Publicity India",
+        "description": "Discover Star Publicity's targeted Below-The-Line (BTL) marketing services, including event branding, retail branding, look walker ads, and more for direct audience engagement.",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Star Publicity India",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.starpublicity.co.in/logo.png"
+            }
+        },
+        "mainEntity": {
+            "@type": "ItemList",
+            "itemListElement": btlServices.map((service, index) => ({ "@type": "ListItem", "position": index + 1, "name": service.name, "url": `https://www.starpublicity.co.in${service.path}` }))
+        }
+    };
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [sendBTLInquiry, { isLoading }] = useSendBTLInquiryMutation();
 
@@ -64,6 +85,13 @@ function BTLMarketing() {
 
     return (
         <div className="min-h-screen w-full bg-gradient-to-br from-gray-50 to-blue-50 font-sans text-gray-800">
+            <Helmet>
+                <title>BTL (Below The Line) Marketing Services | Star Publicity India</title>
+                <meta name="description" content="Discover Star Publicity's targeted Below-The-Line (BTL) marketing services, including event branding, retail branding, look walker ads, and more for direct audience engagement." />
+                <link rel="canonical" href="https://www.starpublicity.co.in/media/BTL" />
+                <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+            </Helmet>
+
             <AnimatePresence>
                 {isModalOpen && (
                     // MODAL: Ensured padding works on small screens and content is centered.

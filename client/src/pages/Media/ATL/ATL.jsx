@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useSendATLInquiryMutation } from "../../../features/auth/contactApi";
+import { Helmet } from "react-helmet-async";
 
 const atlServices = [
     { name: "Unipoles", image: "/assets/ATL marketing images/ATL marketing images/unipole.png", url: "/media/ATL/unipoles" },
@@ -41,6 +42,26 @@ const itemVariants = {
 };
 
 function ATLMarketing() {
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://www.starpublicity.co.in/media/ATL",
+        "name": "ATL (Above The Line) Marketing Services | Star Publicity India",
+        "description": "Explore Star Publicity's comprehensive Above-The-Line (ATL) marketing services, including unipoles, bus branding, TV, radio, and newspaper ads for mass-market reach.",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Star Publicity India",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.starpublicity.co.in/logo.png"
+            }
+        },
+        "mainEntity": {
+            "@type": "ItemList",
+            "itemListElement": atlServices.map((service, index) => ({ "@type": "ListItem", "position": index + 1, "name": service.name, "url": `https://www.starpublicity.co.in${service.url}` }))
+        }
+    };
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [sendATLInquiry, { isLoading }] = useSendATLInquiryMutation();
 
@@ -81,6 +102,13 @@ function ATLMarketing() {
 
     return (
         <div className="min-h-screen w-full bg-gradient-to-br from-gray-50 to-blue-50 font-sans text-gray-800">
+            <Helmet>
+                <title>ATL (Above The Line) Marketing Services | Star Publicity India</title>
+                <meta name="description" content="Explore Star Publicity's comprehensive Above-The-Line (ATL) marketing services, including unipoles, bus branding, TV, radio, and newspaper ads for mass-market reach." />
+                <link rel="canonical" href="https://www.starpublicity.co.in/media/ATL" />
+                <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+            </Helmet>
+
             <AnimatePresence>
                 {isModalOpen && (
                     // MODAL: Ensured padding works on small screens and content is centered.

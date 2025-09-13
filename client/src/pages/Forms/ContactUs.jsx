@@ -21,6 +21,7 @@ import Lottie from "lottie-react";
 import { useSendContactInquiryMutation } from "../../features/auth/contactUs";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { Helmet } from "react-helmet-async";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // Register GSAP plugin
@@ -316,6 +317,27 @@ const AdvantageSection = ({ advantageSectionRef, features }) => {
 
 // --- MAIN COMPONENT ---
 const ContactUsPage = () => {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "url": "https://www.starpublicity.co.in/contact",
+    "name": "Contact Us | Star Publicity India",
+    "description": "Get in touch with Star Publicity. Contact us for outdoor advertising solutions, partnerships, or any inquiries. We're here to help you make an impact.",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.starpublicity.co.in/contact"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Star Publicity India",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.starpublicity.co.in/logo.png"
+      },
+      "telephone": "+91-7403434074"
+    }
+  };
+
   const [orbitAnimationData, setOrbitAnimationData] = useState(null);
   const [showSuccessOverlay, setShowSuccessOverlay] = useState(false); // NEW: State for aura screen
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -353,6 +375,13 @@ const ContactUsPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Contact Us | Star Publicity India</title>
+        <meta name="description" content="Get in touch with Star Publicity. Contact us for outdoor advertising solutions, partnerships, or any inquiries. We're here to help you make an impact." />
+        <link rel="canonical" href="https://www.starpublicity.co.in/contact" />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Helmet>
+
       <style>{animationStyles}</style>
 
       <AnimatePresence>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useSendTTLInquiryMutation } from "../../../features/auth/contactApi";
+import { Helmet } from "react-helmet-async";
 
 const ttlServices = [
     { name: "Brand Collaboration", image: "/assets/TTL marketing images/brand collab.png", path: "/media/TTL/brand-collaboration", description: "Forge powerful alliances to amplify your brand's reach and impact." },
@@ -23,6 +24,26 @@ const itemVariants = {
 };
 
 function TTLMarketing() {
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://www.starpublicity.co.in/media/TTL",
+        "name": "TTL (Through The Line) Marketing Services | Star Publicity India",
+        "description": "Leverage Star Publicity's integrated Through-The-Line (TTL) marketing services, including Google Ads, social media, and brand collaborations for a holistic approach.",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Star Publicity India",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.starpublicity.co.in/logo.png"
+            }
+        },
+        "mainEntity": {
+            "@type": "ItemList",
+            "itemListElement": ttlServices.map((service, index) => ({ "@type": "ListItem", "position": index + 1, "name": service.name, "url": `https://www.starpublicity.co.in${service.path}` }))
+        }
+    };
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
@@ -64,6 +85,13 @@ function TTLMarketing() {
 
     return (
         <div className="min-h-screen w-full bg-gradient-to-br from-gray-50 to-blue-50 font-sans text-gray-800">
+            <Helmet>
+                <title>TTL (Through The Line) Marketing Services | Star Publicity India</title>
+                <meta name="description" content="Leverage Star Publicity's integrated Through-The-Line (TTL) marketing services, including Google Ads, social media, and brand collaborations for a holistic approach." />
+                <link rel="canonical" href="https://www.starpublicity.co.in/media/TTL" />
+                <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+            </Helmet>
+
             <style>
                 {`
                 @keyframes glow {

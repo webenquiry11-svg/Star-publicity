@@ -1,9 +1,29 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion"; // Imported for the new CTA section
+import { Helmet } from "react-helmet-async";
 
 // --- CORRECTED: Local image imports have been removed. ---
 
 const Unipoles = () => {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Unipole Advertising",
+    "name": "Unipole Advertising Services | Star Publicity India",
+    "description": "Dominate the urban landscape with Star Publicity's high-impact unipole advertising solutions. We offer strategic site assessment, fabrication, and installation for maximum brand visibility.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Star Publicity India",
+      "url": "https://www.starpublicity.co.in/",
+      "logo": "https://www.starpublicity.co.in/logo.png"
+    },
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "North India"
+    },
+    "url": "https://www.starpublicity.co.in/media/ATL/unipoles"
+  };
+
   const refs = [
     useRef(null), // Hero section container
     useRef(null), // What We Offer section container
@@ -231,6 +251,13 @@ const Unipoles = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Unipole Advertising Services | Star Publicity India</title>
+        <meta name="description" content="Dominate the urban landscape with Star Publicity's high-impact unipole advertising solutions. We offer strategic site assessment, fabrication, and installation for maximum brand visibility." />
+        <link rel="canonical" href="https://www.starpublicity.co.in/media/ATL/unipoles" />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Helmet>
+
       {/* Custom Styles & Keyframes */}
       <style>{`
         /* General Fade-In Effect */
